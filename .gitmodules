@@ -1,0 +1,48 @@
+[submodule "vimfiles/bundle/emmet-vim"]
+	path = vimfiles/bundle/emmet-vim
+	url = https://github.com/mattn/emmet-vim.git
+[submodule "vimfiles/bundle/ctrlp.vim"]
+	path = vimfiles/bundle/ctrlp.vim
+	url = https://github.com/kien/ctrlp.vim.git
+[submodule "vimfiles/bundle/nerdtree"]
+	path = vimfiles/bundle/nerdtree
+	url = https://github.com/scrooloose/nerdtree.git
+[submodule "vimfiles/bundle/omnisharp-vim"]
+	path = vimfiles/bundle/omnisharp-vim
+	url = https://github.com/OmniSharp/omnisharp-vim.git
+[submodule "vimfiles/bundle/plantuml-syntax"]
+	path = vimfiles/bundle/plantuml-syntax
+	url = https://github.com/aklt/plantuml-syntax.git
+[submodule "vimfiles/bundle/rainbow_parentheses.vim"]
+	path = vimfiles/bundle/rainbow_parentheses.vim
+	url = https://github.com/kien/rainbow_parentheses.vim.git
+[submodule "vimfiles/bundle/syntastic"]
+	path = vimfiles/bundle/syntastic
+	url = https://github.com/scrooloose/syntastic.git
+[submodule "vimfiles/bundle/tabular"]
+	path = vimfiles/bundle/tabular
+	url = https://github.com/godlygeek/tabular.git
+[submodule "vimfiles/bundle/vCoolor.vim"]
+	path = vimfiles/bundle/vCoolor.vim
+	url = https://github.com/KabbAmine/vCoolor.vim.git
+[submodule "vimfiles/bundle/vim-colors-solarized"]
+	path = vimfiles/bundle/vim-colors-solarized
+	url = https://github.com/altercation/vim-colors-solarized.git
+[submodule "vimfiles/bundle/vim-csharp"]
+	path = vimfiles/bundle/vim-csharp
+	url = https://github.com/OrangeT/vim-csharp.git
+[submodule "vimfiles/bundle/vim-cucumber"]
+	path = vimfiles/bundle/vim-cucumber
+	url = https://github.com/tpope/vim-cucumber.git
+[submodule "vimfiles/bundle/vim-dispatch"]
+	path = vimfiles/bundle/vim-dispatch
+	url = https://github.com/tpope/vim-dispatch.git
+[submodule "vimfiles/bundle/vim-misc"]
+	path = vimfiles/bundle/vim-misc
+	url = https://github.com/xolox/vim-misc.git
+[submodule "vimfiles/bundle/vim-shell"]
+	path = vimfiles/bundle/vim-shell
+	url = https://github.com/xolox/vim-shell.git
+[submodule "vimfiles/bundle/vim-multiple-cursors"]
+	path = vimfiles/bundle/vim-multiple-cursors
+	url = https://github.com/terryma/vim-multiple-cursors.git
