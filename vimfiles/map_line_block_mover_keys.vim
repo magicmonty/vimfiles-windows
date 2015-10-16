@@ -19,8 +19,8 @@ xnoremap <silent>  <C-S-Up>    :move '<-2<CR>gv
 xnoremap <silent>  <C-S-Down>  :move '>+<CR>gv
 
 " Insert mode
-imap     <silent>  <C-S-Up>    <C-O><C-Up>
-imap     <silent>  <C-S-Down>  <C-O><C-Down>
+imap     <silent>  <C-S-Up>    <C-O><C-S-Up>
+imap     <silent>  <C-S-Down>  <C-O><C-S-Down>
 
 " Select mode
 smap     <silent>  <C-S-Up>    <C-G><C-Up><C-G>

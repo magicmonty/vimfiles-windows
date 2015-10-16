@@ -48,10 +48,10 @@ let g:solarized_contrast="normal"
 let g:solarized_visibility="high"
 let g:solarized_hitrail=1
 let g:solarized_termtrans=0
-set guifont=Consolas:h11
 set background=dark
 
 if has('gui_running')
+  set guifont=Monoid:h9
   set go-=m
   set go-=T
   set go-=r
@@ -192,15 +192,6 @@ set updatecount=20
 " Backspace in Visual mode deletes selection.
 "
 vnoremap <BS> d
-
-" Control+A is Select All.
-"
-noremap  <C-A>  gggH<C-O>G
-inoremap <C-A>  <C-O>gg<C-O>gH<C-O>G
-cnoremap <C-A>  <C-C>gggH<C-O>G
-onoremap <C-A>  <C-C>gggH<C-O>G
-snoremap <C-A>  <C-C>gggH<C-O>G
-xnoremap <C-A>  <C-C>ggVG
 
 " Control+S saves the current file (if it's been changed).
 "
@@ -389,4 +380,20 @@ nnoremap <leader>ss :OmniSharpStartServer<cr>
 nnoremap <leader>sp :OmniSharpStopServer<cr>
 
 nnoremap <leader>th :OmniSharpHighlightTypes<cr> " Add syntax highlighting for types and interfaces
+
+set encoding=utf-8
+set fileencoding=utf-8
+let g:wakatime_PythonBinary = 'C:/Python27/python.exe'
+
+" avoid the escape key
+imap jk <Esc>
+
+" XML
+au FileType xml set omnifunc=xmlcomplete#CompleteTags noci
+au FileType xml set foldnestmax=10
+au FileType xml setlocal foldmethod=syntax
+au FileType xml nmap <leader>f :%!xmllint --format -<CR>
+au FileType html set omnifunc=htmlcomplete#CompleteTags noci
+let g:xml_syntax_folding=1
+
 
