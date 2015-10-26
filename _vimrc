@@ -357,6 +357,9 @@ augroup omnisharp_commands
     autocmd FileType cs nnoremap <C-K> :OmniSharpNavigateUp<cr>
     "navigate down by method/property/field
     autocmd FileType cs nnoremap <C-J> :OmniSharpNavigateDown<cr>
+    autocmd FileType cs set tabstop = 4
+    autocmd FileType cs set softtabstop = 4
+    autocmd FileType cs set shiftwidth = 4
 augroup END
 
 
@@ -396,4 +399,70 @@ au FileType xml nmap <leader>f :%!xmllint --format -<CR>
 au FileType html set omnifunc=htmlcomplete#CompleteTags noci
 let g:xml_syntax_folding=1
 
+nmap < [
+nmap > ]
+omap < [
+omap > ]
+xmap < [
+xmap > ]
 
+set winwidth=84
+set winheight=5
+set winminheight=5
+set winheight=999
+
+set rnu
+function! ToggleNumbersOn()
+    set nu!
+    set rnu
+endfunction
+function! ToggleRelativeOn()
+    set rnu!
+    set nu
+endfunction
+autocmd FocusLost * call ToggleRelativeOn()
+autocmd FocusGained * call ToggleRelativeOn()
+autocmd InsertEnter * call ToggleRelativeOn()
+autocmd InsertLeave * call ToggleRelativeOn()
+
+" Quicker window movement
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
+
+" Quickly close windows
+nnoremap <leader>x :x<cr>
+nnoremap <leader>X :q<cr>
+
+" zoom a vim pane, <C-w>= to re-balance
+nnoremap <leader>- :wincmd _<cr>:wincmd \|<cr>
+nnoremap <leader>= :wincmd =<cr>
+
+" resize panes
+nnoremap <silent> <C-A-Left> :vertical resize +5<cr>
+nnoremap <silent> <C-A-Right> :vertical resize -5<cr>
+nnoremap <silent> <C-A-Down> :resize +5<cr>
+nnoremap <silent> <C-A-Up> :resize -5<cr>
+
+" automatically rebalance windows on vim resize
+autocmd VimResized * :wincmd =
+
+"update dir to current file
+autocmd BufEnter * silent! cd %:p:h
+
+inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
+inoremap <S-Tab> <c-n>
+
+" Tab completion
+" will insert tab at beginning of line,
+" will use completion if not at beginning
+set wildmode=list:longest,list:full
+function! InsertTabWrapper()
+    let col = col('.') - 1
+    if !col || getline('.')[col - 1] !~ '\k'
+        return "\<tab>"
+    else
+        return "\<c-p>"
+    endif
+endfunction

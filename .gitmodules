@@ -7,9 +7,6 @@
 [submodule "vimfiles/bundle/nerdtree"]
 	path = vimfiles/bundle/nerdtree
 	url = https://github.com/scrooloose/nerdtree.git
-[submodule "vimfiles/bundle/omnisharp-vim"]
-	path = vimfiles/bundle/omnisharp-vim
-	url = https://github.com/OmniSharp/omnisharp-vim.git
 [submodule "vimfiles/bundle/plantuml-syntax"]
 	path = vimfiles/bundle/plantuml-syntax
 	url = https://github.com/aklt/plantuml-syntax.git
@@ -67,3 +64,21 @@
 [submodule "vimfiles/bundle/xmledit"]
 	path = vimfiles/bundle/xmledit
 	url = https://github.com/sukima/xmledit.git
+[submodule "vimfiles/bundle/supertab"]
+	path = vimfiles/bundle/supertab
+	url = https://github.com/ervandew/supertab.git
+[submodule "vimfiles/bundle/tComment"]
+	path = vimfiles/bundle/tComment
+	url = https://github.com/vim-scripts/tComment.git
+[submodule "vimfiles/bundle/auto-pairs"]
+	path = vimfiles/bundle/auto-pairs
+	url = https://github.com/jiangmiao/auto-pairs.git
+[submodule "vimfiles/bundle/vim-surround"]
+	path = vimfiles/bundle/vim-surround
+	url = https://github.com/tpope/vim-surround.git
+[submodule "vimfiles/bundle/vim-repeat"]
+	path = vimfiles/bundle/vim-repeat
+	url = https://github.com/tpope/vim-repeat.git
+[submodule "vimfiles/bundle/vim-unimpaired"]
+	path = vimfiles/bundle/vim-unimpaired
+	url = https://github.com/tpope/vim-unimpaired.git
