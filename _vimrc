@@ -3,7 +3,7 @@ source $VIMRUNTIME/vimrc_example.vim
 source $VIMRUNTIME/mswin.vim
 behave mswin
 
-let mapleader=","
+let mapleader=" "
 set diffexpr=MyDiff()
 function MyDiff()
   let opt = '-a --binary '
@@ -51,7 +51,7 @@ let g:solarized_termtrans=0
 set background=dark
 
 if has('gui_running')
-  set guifont=Monoid:h9
+  set guifont=Monoid:h9:cANSI
   set go-=m
   set go-=T
   set go-=r
@@ -268,7 +268,7 @@ inoremap <C-U>= <Esc>kyyp^v$r=ja
 
 " Edit user's vimrc in new tabs.
 "
-nnoremap ,ev  :tabedit $MYVIMRC<CR>
+nnoremap <leader>ev  :tabedit $MYVIMRC<CR>
 
 " Make page-forward and page-backward work in insert mode.
 "
@@ -357,9 +357,9 @@ augroup omnisharp_commands
     autocmd FileType cs nnoremap <C-K> :OmniSharpNavigateUp<cr>
     "navigate down by method/property/field
     autocmd FileType cs nnoremap <C-J> :OmniSharpNavigateDown<cr>
-    autocmd FileType cs set tabstop = 4
-    autocmd FileType cs set softtabstop = 4
-    autocmd FileType cs set shiftwidth = 4
+    autocmd FileType cs set tabstop=4
+    autocmd FileType cs set softtabstop=4
+    autocmd FileType cs set shiftwidth=4
 augroup END
 
 
@@ -445,6 +445,9 @@ nnoremap <silent> <C-A-Right> :vertical resize -5<cr>
 nnoremap <silent> <C-A-Down> :resize +5<cr>
 nnoremap <silent> <C-A-Up> :resize -5<cr>
 
+" folding
+nnoremap ya za
+
 " automatically rebalance windows on vim resize
 autocmd VimResized * :wincmd =
 
@@ -465,4 +468,22 @@ function! InsertTabWrapper()
     else
         return "\<c-p>"
     endif
+endfunction
+
+let g:airline_powerline_fonts = 1
+
+nmap <leader>aa :Tabularize /\|/l0<CR>
+vmap <leader>aa :Tabularize /\|/l0<CR>
+
+inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
+
+function! s:align()
+  let p = '^\s*|\s.*\s|\s*$'
+  if getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
+    let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
+    let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
+    Tabularize/|/l1
+    normal! 0
+    call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
+  endif
 endfunction

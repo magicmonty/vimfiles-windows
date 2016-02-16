@@ -1,4 +1,10 @@
 if has("win32")
+    if has("gui_running")
+      " GUI is running or is about to start.
+    
+      " Maximize GVim Window on start
+      " au GUIEnter * simalt ~x 
+    endif
 
     " CTRL-X and SHIFT-Del are Cut
     vnoremap <C-X>      "+x
