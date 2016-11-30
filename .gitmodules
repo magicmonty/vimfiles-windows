@@ -50,18 +50,6 @@
 	path = vimfiles/bundle/vim-shell
 	url = https://github.com/xolox/vim-shell.git
   ignore = dirty
-[submodule "vimfiles/bundle/vim-multiple-cursors"]
-	path = vimfiles/bundle/vim-multiple-cursors
-	url = https://github.com/terryma/vim-multiple-cursors.git
-  ignore = dirty
-[submodule "vimfiles/bundle/fsharp-vim"]
-	path = vimfiles/bundle/fsharp-vim
-	url = https://github.com/kongo2002/fsharp-vim.git
-  ignore = dirty
-[submodule "vimfiles/bundle/vim-wakatime"]
-	path = vimfiles/bundle/vim-wakatime
-	url = https://github.com/wakatime/vim-wakatime.git
-  ignore = dirty
 [submodule "vimfiles/bundle/vim-fugitive"]
 	path = vimfiles/bundle/vim-fugitive
 	url = https://github.com/tpope/vim-fugitive.git
