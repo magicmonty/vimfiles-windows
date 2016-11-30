@@ -290,22 +290,6 @@ nnoremap <C-L>  :nohlsearch<CR><C-L>
 inoremap <C-L>  <Esc>:nohlsearch<CR><C-L>a
 vnoremap <C-L>  <Esc>:nohlsearch<CR><C-L>gv
 
-" Toggle the NERD Tree window
-"
-nnoremap ,.  :NERDTreeToggle<CR>
-
-" NERD Tree
-"
-let NERDChristmasTree=0
-let NERDTreeHighlightCursorline=1
-let NERDTreeShowHidden=1
-let NERDTreeMinimalUI=1
-let NERDTreeWinSize=40
-let NERDTreeMouseMode=2 " single click for dirs, double for files
-let NERDTreeQuitOnOpen=1 " close NERDTree after opening a file
-let NERDTreeDirArrows=0
-let NERDTreeChDirMode=2 " let NERDTree change the current dir
-
 let g:plantuml_executable_script='plantuml'
 nnoremap <F5> :w<CR> :silent make<CR>
 inoremap <F5> <Esc>:w<CR>:silent make<CR>
