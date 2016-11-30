@@ -312,7 +312,15 @@ inoremap <F5> <Esc>:w<CR>:silent make<CR>
 vnoremap <F5> :<C-U>:w<CR>:silent make<CR>
 
 " OmniSharp
-" 
+
+let g:SuperTabDefaultCompletionType = 'context'
+let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
+let g:SuperTabDefaultCompletionTypeDiscovery = ["&omnifunc:<c-x><c-o>","&completefunc:<c-x><c-n>"]
+let g:SuperTabClosePreviewOnPopupClose = 1
+
+" let g:OmniSharp_server_type = 'roslyn'
+" let g:OmniSharp_server_path = 'C:/Users/mgondermann/Portable/omnisharp-roslyn/OmniSharp.exe'
+let g:OmniSharp_server_type = 'v1'
 let g:OmniSharp_host = "http://localhost:2000" "This is the default value, setting it isn't actually necessary
 let g:OmniSharp_selector_ui = 'ctrlp'  " Use ctrlp.vim
 
@@ -386,7 +394,6 @@ nnoremap <leader>th :OmniSharpHighlightTypes<cr> " Add syntax highlighting for t
 
 set encoding=utf-8
 set fileencoding=utf-8
-let g:wakatime_PythonBinary = 'C:/Python27/python.exe'
 
 " avoid the escape key
 imap jk <Esc>
@@ -487,3 +494,5 @@ function! s:align()
     call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
   endif
 endfunction
+
+
