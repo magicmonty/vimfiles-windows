@@ -102,3 +102,7 @@
 	path = vimfiles/bundle/vim-ps1
 	url = https://github.com/PProvost/vim-ps1.git
   ignore = dirty
+[submodule "vimfiles/bundle/vim-fsharp"]
+	path = vimfiles/bundle/vim-fsharp
+	url = https://github.com/fsharp/vim-fsharp.git
+  ignore = dirty
