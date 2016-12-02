@@ -106,3 +106,7 @@
 	path = vimfiles/bundle/vim-fsharp
 	url = https://github.com/fsharp/vim-fsharp.git
   ignore = dirty
+[submodule "vimfiles/bundle/TFS"]
+	path = vimfiles/bundle/TFS
+	url = https://github.com/vim-scripts/TFS.git
+  ignore = dirty

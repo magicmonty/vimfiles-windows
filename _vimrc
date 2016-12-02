@@ -479,4 +479,6 @@ function! s:align()
   endif
 endfunction
 
+" vim-fsharp plugin
+let g:syntastic_fsharp_checkers=['syntax']
 
