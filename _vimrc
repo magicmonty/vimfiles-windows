@@ -1,182 +1,109 @@
 set nocompatible  " Vim (not vi) settings. Set early for side effects.
-source $VIMRUNTIME/vimrc_example.vim
-source $VIMRUNTIME/mswin.vim
-behave mswin
+
+if has("win32")
+  source $VIMRUNTIME/vimrc_example.vim
+  source $VIMRUNTIME/mswin.vim
+  
+  runtime map_option_highlighting_keys.vim
+  runtime win32_mappings.vim
+endif 
 
 let mapleader=" "
-set diffexpr=MyDiff()
-function MyDiff()
-  let opt = '-a --binary '
-  if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
-  if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
-  let arg1 = v:fname_in
-  if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
-  let arg2 = v:fname_new
-  if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
-  let arg3 = v:fname_out
-  if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
-  let eq = ''
-  if $VIMRUNTIME =~ ' '
-    if &sh =~ '\<cmd'
-      let cmd = '""' . $VIMRUNTIME . '\diff"'
-      let eq = '"'
-    else
-      let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
-    endif
-  else
-    let cmd = $VIMRUNTIME . '\diff'
-  endif
-  silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3 . eq
-endfunction
-
-"Personal Settings.
-"More to be added soon.
-
-execute pathogen#infect()
-filetype plugin indent on
-syntax on
-
-"Set the status line options. Make it show more information.
-set laststatus=2        " Always show a status line.
-set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\[POS=%l,%v][%p%%]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}
-
-"Set Color Scheme and Font Options
-colorscheme solarized
-
-" Solarized Theme
-let g:solarized_contrast="normal"
-let g:solarized_visibility="high"
-let g:solarized_hitrail=1
-let g:solarized_termtrans=0
-set background=dark
-
-if has('gui_running')
-  set guifont=Monoid:h9:cANSI
-  set go-=m
-  set go-=T
-  set go-=r
-  let g:solarized_menu=0
-endif
-
-"set line no, buffer, search, highlight, autoindent and more.
-set number              " Display line numbers.
-set numberwidth=4       " Minimum number of columns to show for line numbers.
-set hidden              " Keep changed buffers without requiring saves.
-set ignorecase          " Ignore case for pattern matches (\C overrides).
-set smartcase           " Override 'ignorecase' if pattern contains uppercase.
-set nowrapscan          " Don't allow searches to wrap around EOF.
-set incsearch           " Do incremental searching.
-set hlsearch            " Highlight latest search pattern.
-
-set noshowmatch         " Don't jump to matching characters
-set matchpairs=(:),[:],{:},<:>  " Character pairs for use with %, 'showmatch'
-set matchtime=1                 " In tenths of seconds, when showmatch is on
+let g:mapleader=" "
+set showmode            " show the input mode in the footer
+set shortmess+=I        " Don't show the Vim welcome screen.
+set clipboard=unnamedplus " use system clipboard with * register
 
 set autoindent          " Copy indent from current line for new line.
 set nosmartindent       " 'smartindent' breaks right-shifting of # lines.
+
+set hidden              " Keep changed buffers without requiring saves.
+
+set history=5000        " Remember this many command lines.
+
 set ruler               " Always show the cursor position.
-set visualbell t_vb=    " Use null visual bell (no beeps or flashes).
-set viminfo+=n$VIM/_viminfo
-set noerrorbells
 set showcmd             " Display incomplete commands.
-if has('mouse')
-  set mouse=a
-end
-set nobackup
-set history=1000        " Remember this many command lines.
-set undolevels=1000
-set virtualedit=block   " Allow virtual editing when in Visual Block mode.
-set textwidth=0         " Don't auto-wrap lines except for specific filetypes.
-set mouse=a             " Enable mouse support if it's available.
+set incsearch           " Do incremental searching.
+set hlsearch            " Highlight latest search pattern.
+set number              " Display line numbers.
+set relativenumber      " show line numbers centred around the current line
+set numberwidth=4       " Minimum number of columns to show for line numbers.
+set laststatus=2        " Always show a status line.
+set visualbell t_vb=    " Use null visual bell (no beeps or flashes).
+
+set scrolloff=3         " Context lines at top and bottom of display.
+set sidescrolloff=5     " Context columns at left and right
+set sidescroll=1        " Number of chars to scroll when scrolling sideways.
+
+set nowrap              " Don't wrap the display of long lines.
+set linebreak           " Wrap at 'breakat' char vs display edge if 'wrap' on.
+set display=lastline    " Display as much of a window's last line as possible.
+
+set splitright          " Split new vertical windows right of current window.
+set splitbelow          " Split new horizontal windows under current window.
+
+set winminheight=0      " Allow windows to shrink to status line.
+set winminwidth=0       " Allow windows to shrink to vertical separator.
+
 set expandtab           " Insert spaces for <Tab> press; use spaces to indent.
 set smarttab            " Tab respects 'shiftwidth', 'tabstop', 'softtabstop'.
 set tabstop=2           " Set the visible width of tabs.
 set softtabstop=2       " Edit as if tabs are 2 characters wide.
 set shiftwidth=2        " Number of spaces to use for indent and unindent.
 set shiftround          " Round indent to a multiple of 'shiftwidth'.
-set whichwrap+=<,>,[,]          " Left/right arrows can move across lines.
-set backspace=indent,eol,start  " Backspace over everything in Insert mode.
 
-set wildmenu                    " Use menu for completions
-set wildmode=full
+set ignorecase          " Ignore case for pattern matches (\C overrides).
+set smartcase           " Override 'ignorecase' if pattern contains uppercase.
+set wrapscan            " Allow searches to wrap around EOF.
 
-set nowrap
-set scrolloff=3         " Context lines at top and bottom of display.
-set sidescrolloff=5     " Context columns at left and right.
-set sidescroll=1        " Number of chars to scroll when scrolling sideways.
-set linebreak           " Wrap at 'breakat' char vs display edge if 'wrap' on.
-set display=lastline    " Display as much of a window's last line as possible.
-set splitright          " Split new vertical windows right of current window.
-set splitbelow          " Split new horizontal windows under current window.
-set winminheight=0      " Allow windows to shrink to status line.
-set winminwidth=0       " Allow windows to shrink to vertical separator.
-
-set nomodeline          " Ignore modelines.
-set nojoinspaces        " Don't get fancy with the spaces when joining lines.
-
-set nocursorcolumn      " Don't Highlight current screen column...
-set cursorline          " Highlight the current screen line...
+set cursorline          " highlight the current screen line...
+set nocursorcolumn      " ...or screen column...
 set colorcolumn=        " ...or margins (but see toggle_highlights.vim).
+
+set virtualedit=block   " Allow virtual editing when in Visual Block mode.
 
 set foldcolumn=3        " Number of columns to show at left for folds.
 set foldnestmax=3       " Only allow 3 levels of folding.
 set foldlevelstart=99   " Start with all folds open.
 
-set shortmess+=I        " Don't show the Vim welcome screen.
+set whichwrap+=<,>,[,]  " Allow left/right arrows to move across lines.
+
+set nomodeline          " Ignore modelines.
+set nojoinspaces        " Don't get fancy with the spaces when joining lines.
+set textwidth=0         " Don't auto-wrap lines except for specific filetypes.
+
+
+" Turn 'list' off by default, since it interferes with 'linebreak' and
+" 'breakat' formatting (and it's ugly and noisy), but define characters to use
+" when it's turned on.
 
 set nolist
 set listchars =tab:>-           " Start and body of tabs
-set listchars+=trail:.          " Trailing spaces
-set listchars+=extends:>        " Last column when line extends off right
-set listchars+=precedes:<       " First column when line extends off left
-set listchars+=eol:$            " End of line
+set listchars +=trail:.         " Trailing spaces
+set listchars +=extends:>       " Last column when line extends off right
+set listchars +=precedes:<      " First column when line extends off left
+set listchars +=eol:$           " End of line
 
+set backspace=indent,eol,start  " Backspace over everything in Insert mode
 
-au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadRound
-au Syntax * RainbowParenthesesLoadSquare
-au Syntax * RainbowParenthesesLoadBraces
+set noshowmatch                 " Don't jump to matching characters
+set matchpairs=(:),[:],{:},<:>  " Character pairs for use with %, 'showmatch'
+set matchtime=1                 " In tenths of seconds, when showmatch is on
 
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
+set wildmenu                    " Use menu for completions
+set wildmode=full
 
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" Enable mouse support if it's available.
+if has('mouse')
+  set mouse=a
+endif
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
-set omnifunc=syntaxcomplete#Complete
-
-iabbrev <expr> _lipsum ''
-    \ . 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
-    \ . 'Praesent hendrerit tempus adipiscing. Nullam vitae nibh ut '
-    \ . 'arcu volutpat porta. Ut tristique molestie mollis. In at erat '
-    \ . 'a ante molestie molestie. Suspendisse varius arcu nec augue '
-    \ . 'condimentum semper. Vestibulum malesuada pulvinar mi, '
-    \ . 'fermentum elementum eros adipiscing dignissim. Vestibulum at '
-    \ . 'odio risus. Ut ipsum erat, volutpat sed cursus nec, blandit '
-    \ . 'ac diam. Integer tincidunt sollicitudin eros, sit amet '
-    \ . 'vulputate justo sollicitudin malesuada. Nulla dapibus dictum '
-    \ . 'dolor id semper. Phasellus pretium dapibus massa quis auctor. '
-
-iabbrev _epg    magicmonty@pagansoft.de
-iabbrev _egm    pagansoft@gmail.com
-iabbrev _sig    Bye,<CR>Martin
-
-runtime insert_matching_spaces.vim
-runtime map_option_highlighting_keys.vim
-runtime win32_mappings.vim
-runtime map_line_block_mover_keys.vim
+set backup
+" Remove the current directory from the backup directory list.
+set backupdir-=.
 
 if has("win32")
   set grepprg=internal        " Windows findstr.exe just isn't good enough.
-
-  " Remove the current directory from the backup directory list.
-  set backupdir-=.
 
   " Save backup files in the current user's TEMP directory
   " (that is, whatever the TEMP environment variable is set to).
@@ -186,28 +113,161 @@ if has("win32")
   set directory=$TEMP\\\\
 endif
 
+
+if has("unix") " (including OS X)
+  " Save backup files in the current user's ~/tmp directory, or in the
+  " system /tmp directory if that's not possible.
+  "
+  set backupdir^=~/tmp,/tmp
+
+  " Try to put swap files in ~/tmp (using the munged full pathname of
+  " the file to ensure uniqueness). Use the same directory as the
+  " current file if ~/tmp isn't available.
+  "
+  set directory=~/tmp//,.
+endif
+
 " Update the swap file every 20 characters. I don't like to lose stuff.
 set updatecount=20
+
+" Switch on syntax highlighting when the terminal has colors, or when running
+" in the GUI. Set the do_syntax_sel_menu flag to tell $VIMRUNTIME/menu.vim
+" to expand the syntax menu.
+"
+" Note: This happens before the 'Autocommands' section below to give the syntax
+" command a chance to trigger loading the menus (vs. letting the filetype
+" command do it). If do_syntax_sel_menu isn't set beforehand, the syntax menu
+" won't get populated.
+"
+if &t_Co > 2 || has("gui_running")
+    let do_syntax_sel_menu=1
+    syntax on
+endif
+
+if has('gui_running')
+  set guifont=Monoid:h9:cANSI
+  set go-=m
+  set go-=T
+  set go-=r
+  let g:solarized_menu=0
+endif
+
+if has("autocmd") && !exists("autocommands_loaded")
+
+  " Set a flag to indicate that autocommands have already been loaded,
+  " so we only do this once. I use this flag instead of just blindly
+  " running `autocmd!` (which removes all autocommands from the
+  " current group) because `autocmd!` breaks the syntax highlighting /
+  " syntax menu expansion logic.
+  "
+  let autocommands_loaded = 1
+
+  " Enable filetype detection, so language-dependent plugins, indentation
+  " files, syntax highlighting, etc., are loaded for specific filetypes.
+  "
+  " Note: See $HOME/.vim/ftplugin and $HOME/.vim/after/ftplugin for
+  " most local filetype autocommands and customizations.
+  "
+  filetype off
+  filetype plugin indent off
+
+  set runtimepath+=$GOROOT/misc/vim
+
+  filetype on
+  syntax on
+  filetype plugin indent on
+
+  " When editing a file, always jump to the last known cursor
+  " position. Don't do it when the position is invalid or when inside
+  " an event handler (happens when dropping a file on gvim).
+  "
+  autocmd BufReadPost *
+      \   if line("'\"") > 0 && line("'\"") <= line("$") |
+      \       exe "normal g`\"" |
+      \   endif
+
+  " Create the hook for the per-window configuration. Both WinEnter
+  " and VimEnter are used, since WinEnter doesn't fire for the first
+  " window.
+  "
+  " Based on ideas from here:
+  " http://vim.wikia.com/wiki/Detect_window_creation_with_WinEnter
+  "
+  autocmd WinEnter,VimEnter * call s:ConfigureWindow()
+
+  " Resize Vim windows to equal heights and widths when Vim itself
+  " is resized.
+  "
+  autocmd VimResized * wincmd =
+
+  " Open quickfix and fugitive's git commit windows at full horizontal
+  " width. Via http://nosubstance.me/articles/2013-09-21-my-vim-gems/
+  "
+  autocmd FileType qf,gitcommit wincmd J
+
+  " Treat buffers from stdin (e.g.: echo foo | vim -) as scratch buffers.
+  "
+  autocmd StdinReadPost * :set buftype=nofile
+
+  augroup vimrcEx
+    autocmd!
+
+    autocmd BufRead,BufNewFile	*.build		setfiletype xml
+    autocmd BufRead,BufNewFile	*.targets	setfiletype xml
+    autocmd BufRead,BufNewFile	*.nunit		setfiletype xml
+    autocmd BufRead,BufNewFile	*.config	setfiletype xml
+    autocmd BufRead,BufNewFile	*.xaml		setfiletype xml
+    autocmd BufRead,BufNewFile	*.DotSettings		setfiletype xml
+
+    autocmd FocusLost * silent! :wa
+  augroup END
+
+endif " has("autocmd")
+
+
+"""
+""" Key mappings
+"""
+
+if has("win32")
+  behave mswin
+else
+  " Set 'selection', 'selectmode', 'mousemodel' and 'keymodel' to make
+  " both keyboard- and mouse-based highlighting behave more like Windows
+  " and OS X. (These are the same settings you get with `:behave mswin`.)
+  "
+  " Note: 'selectmode', 'keymodel', and 'selection' are also set within
+  " map_movement_keys.vim, since they're critical to the behavior of those
+  " mappings (although they should be set to the same values there as here.)
+  "
+  " Note: Under MacVim, `:let macvim_hig_shift_movement = 1` will cause MacVim
+  " to set selectmode and keymodel. See `:help macvim-shift-movement` for
+  " details.
+  "
+  set selectmode=mouse,key
+  set keymodel=startsel,stopsel
+  set selection=exclusive
+  set mousemodel=popup
+endif
 
 " Backspace in Visual mode deletes selection.
 "
 vnoremap <BS> d
 
-" Control+S saves the current file (if it's been changed).
+" F7 formats the current/highlighted paragraph.
 "
-noremap  <C-S>  :update<CR>
-vnoremap <C-S>  <C-C>:update<CR>
-inoremap <C-S>  <C-O>:update<CR>
+" XXX: Consider changing this to gwap to maintain logical cursor position.
+"
+nnoremap <F7>   gqap
+inoremap <F7>   <C-O>gqap
+vnoremap <F7>   gq
 
-" Control+Z is Undo, in Normal and Insert mode.
+" Q does the same thing as <F7> (except in Insert mode, of course). I'm
+" retraining myself to use Q instead of a function key, since it's kind
+" of a de facto standard keystroke.
 "
-noremap  <C-Z>  u
-inoremap <C-Z>  <C-O>u
-
-" F2 inserts the date and time at the cursor.
-"
-inoremap <F2>   <C-R>=strftime("%c")<CR>
-nmap     <F2>   a<F2><Esc>
+nnoremap Q  gqap
+xnoremap Q  gq
 
 " Tab/Shift+Tab indent/unindent the highlighted block (and maintain the
 " highlight after changing the indentation). Works for both Visual and Select
@@ -215,6 +275,13 @@ nmap     <F2>   a<F2><Esc>
 "
 vnoremap <Tab>    >gv
 vnoremap <S-Tab>  <gv
+
+" Map Control+Up/Down to move lines and selections up and down.
+"
+runtime map_line_block_mover_keys.vim
+if has("vim-fireplace")
+  runtime vim-fireplace-mappings.vim
+endif
 
 " Disable paste-on-middle-click.
 "
@@ -227,14 +294,21 @@ imap <2-MiddleMouse>  <Nop>
 imap <3-MiddleMouse>  <Nop>
 imap <4-MiddleMouse>  <Nop>
 
+if has("unix")
+  " Control+Backslash toggles a lot of useful, but visually-noisy, features
+  " (like search/match highlighting, 'list', and 'cursorline', etc.). Note the
+  " :execute (vs. :call); see ToggleHighlight() for details.
+  "
+  runtime toggle_highlights.vim
+  nnoremap <silent> <C-Bslash>  :execute ToggleHighlights()<CR>
+  imap     <silent> <C-BSlash>  <Esc><C-BSlash>a
+  vmap     <silent> <C-BSlash>  <Esc><C-BSlash>gv
+endif
+
 " Control+Hyphen (yes, I know it says underscore) repeats the character above
 " the cursor.
 "
 inoremap <C-_>  <C-Y>
-
-" AutoComplete with C-Space
-" "
-inoremap <C-space> <C-x><C-o>
 
 " Center the display line after searches. (This makes it *much* easier to see
 " the matched line.)
@@ -268,7 +342,7 @@ inoremap <C-U>= <Esc>kyyp^v$r=ja
 
 " Edit user's vimrc in new tabs.
 "
-nnoremap <leader>ev  :tabedit $MYVIMRC<CR>
+nnoremap <leader>ev :tabedit $MYVIMRC<CR>
 
 " Make page-forward and page-backward work in insert mode.
 "
@@ -290,18 +364,308 @@ nnoremap <C-L>  :nohlsearch<CR><C-L>
 inoremap <C-L>  <Esc>:nohlsearch<CR><C-L>a
 vnoremap <C-L>  <Esc>:nohlsearch<CR><C-L>gv
 
-let g:plantuml_executable_script='plantuml'
-nnoremap <F5> :w<CR> :silent make<CR>
-inoremap <F5> <Esc>:w<CR>:silent make<CR>
-vnoremap <F5> :<C-U>:w<CR>:silent make<CR>
 
-" OmniSharp
+" Insert spaces to match spacing on first previous non-blank line.
+"
+runtime insert_matching_spaces.vim
+inoremap <expr> <S-Tab>  InsertMatchingSpaces()
 
+" Keep the working line in the center of the window. This is a toggle, so you
+" can bounce between centered-working-line scrolling and normal scrolling by
+" issuing the keystroke again.
+"
+" From this message on the MacVim mailing list:
+" http://groups.google.com/group/vim_mac/browse_thread/thread/31876ef48063e487/133e06134425bda1?hl=en¿e06134425bda1
+"
+nnoremap <Leader>zz  :let &scrolloff=999-&scrolloff<CR>
+
+" Toggle wrapping the display of long lines (and display the current 'wrap'
+" state once it's been toggled).
+"
+nnoremap <Leader>w  :set invwrap<BAR>set wrap?<CR>
+
+"
+" Make it easy to :Tabularize
+"
+nnoremap <leader><Tab> <Esc>:Tabularize /
+nmap <leader>aa :Tabularize /\|/l0<CR>
+vmap <leader>aa :Tabularize /\|/l0<CR>
+
+" Make the dot command operate over a Visual range.
+" (Excellent tip from Drew Neil's Vim Masterclass.)
+"
+xnoremap .  :normal .<CR>
+
+"""
+""" Abbreviations
+"""
+runtime set_abbreviations.vim
+
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
+
+if $TERMKIT_HOST_APP=="Cathode"
+  let g:solarized_termcolors=256
+  let g:solarized_bold=0
+  let g:solarized_underline=0
+  let g:solarized_italic=0
+  let g:airline_theme='powerlineish'
+  let g:airline_powerline_fonts = 0
+endif
+
+colorscheme solarized
+let g:solarized_contrast="normal"
+let g:solarized_visibility="high"
+let g:solarized_hitrail=1
+let g:solarized_termtrans=0
+set background=dark
+
+"""
+""" Local Functions
+"""
+
+function! s:ConfigureWindow()
+
+    " Only do this once per window.
+    "
+    if exists('w:windowConfigured')
+        return
+    endif
+
+    let w:windowConfigured = 1
+
+    " Highlight trailing whitespace, except when typing at the end of a line.
+    " More info: http://vim.wikia.com/wiki/Highlight_unwanted_spaces
+    "
+    " XXX: Disabled for now, since it's distracting during demos and classes.
+    "
+    "call matchadd('NonText', '\s\+\%#\@<!$')
+
+    " Highlight the usual to-do markers (including my initials and Michele's
+    " initials), even if the current syntax highlighting doesn't include them.
+    "
+    call matchadd('Todo', 'XXX')
+    call matchadd('Todo', 'BUG')
+    call matchadd('Todo', 'HACK')
+    call matchadd('Todo', 'FIXME')
+    call matchadd('Todo', 'TODO')
+    call matchadd('Todo', 'WNO:')
+    call matchadd('Todo', 'MRB:')
+
+endfunction
+
+function MyDiff()
+  let opt = '-a --binary '
+  if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
+  if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
+  let arg1 = v:fname_in
+  if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
+  let arg2 = v:fname_new
+  if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
+  let arg3 = v:fname_out
+  if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
+  let eq = ''
+  if $VIMRUNTIME =~ ' '
+    if &sh =~ '\<cmd'
+      let cmd = '""' . $VIMRUNTIME . '\diff"'
+      let eq = '"'
+    else
+      let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
+    endif
+  else
+    let cmd = $VIMRUNTIME . '\diff'
+  endif
+  silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3 . eq
+endfunction
+
+inoremap <expr> <C-Space> pumvisible() \|\| &omnifunc == '' ?
+      \ "\<lt>C-n>" :
+      \ "\<lt>C-x>\<lt>C-o><c-r>=pumvisible() ?" .
+      \ "\"\\<lt>c-n>\\<lt>c-p>\\<lt>c-n>\" :" .
+      \ "\" \\<lt>bs>\\<lt>C-n>\"\<CR>"
+imap <C-@> <C-Space>
+
+nnoremap <leader><Tab> :tabNext<cr>
+
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+noremap <leader>bn :bn<cr>
+noremap <leader>bp :bp<cr>
+imap <buffer> <C-e> <Esc><Esc>ms[[cpp`sl
+nmap <buffer> <C-e> ms[[cpp`s
+let g:airline_powerline_fonts = 1
+
+set t_Co=256
+highlight clear SignColumn
+
+if &term =~ '256color'
+  " disable Background Color Erase (BCE) so that color schemes
+  " render properly when inside 256-color tmux and GNU screen.
+  " see also http://snk.tuxfamily.org/log/vim-256color-bce.html
+  set t_ut=
+endif
+
+let g:user_emmet_mode='a'
+let g:user_emmet_install_global=0
+autocmd FileType html,css EmmetInstall
+"let g:user_emmet_leader_key='<C-SPC>'
+
+" Various helpers
+noremap H 0
+noremap L $
+map q: :q
+
+" expand region
+vmap v <Plug>(expand_region_expand)
+vmap <C-v> <Plug>(expand_region_shrink)
+
+" Indent guides
+map <leader>ii :IndentGuidesToggle<cr>
+
+
+command! SetIndent2Spaces set nopi shiftwidth=2 softtabstop=2
+command! SetIndent4Spaces set nopi shiftwidth=4 softtabstop=4
+command! SetIndentTabs set noet ci pi sts=0 sw=4 ts=4
+
+map <leader>i2 :SetIndent2Spaces<CR>
+map <leader>i4 :SetIndent4Spaces<CR>
+map <leader>it :SetIndentTabs<CR>
+
+nnoremap <leader><space> :noh<cr> " clear highlighted search results
+
+" Unimpaired mappings for Non US keyboards
+nmap < [
+nmap > ]
+omap < [
+omap > ]
+xmap < [
+xmap > ]
+
+noremap <C-<> <<
+noremap <C->> >>
+noremap <leader>D VGdo<Esc>
+nnoremap <leader>c za " toggle fold
+vnoremap <leader>c za " toggle fold
+map <leader>rn :set relativenumber!<cr>
+map <leader>wr :set wrap!<cr>
+nnoremap <leader>v :vsplit<cr>
+nnoremap <leader>h :hsplit<cr>
+if has("unix")
+  nnoremap <leader>da :Dash<cr>
+endif
+map <leader># gcc
+inoremap jj <Esc>
+inoremap jk <Esc>
+
+if has("vim-gitgutter")
+  " GitGutter related
+  highlight GitGutterAdd ctermfg=darkgreen
+  highlight GitGutterChange ctermfg=darkyellow
+  highlight GitGutterDelete ctermfg=darkred
+  highlight GitGutterChangeDelete ctermfg=darkyellow
+  highlight SignColumn ctermbg=black
+
+  map<leader>gg :GitGutterToggle<CR>
+  map <leader>gp :GitGutterPreviewHunk<CR>
+  map <leader>gr :GitGutterRevertHunk<CR>
+end
+
+" indent guide plugin
+let g:indent_guides_guide_size=1
+let g:indent_guides_start_level=2
+let g:indent_guides_enable_on_vim_startup=1
+
+"Super tab settings - uncomment the next 4 lines
 let g:SuperTabDefaultCompletionType = 'context'
 let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
 let g:SuperTabDefaultCompletionTypeDiscovery = ["&omnifunc:<c-x><c-o>","&completefunc:<c-x><c-n>"]
 let g:SuperTabClosePreviewOnPopupClose = 1
 
+set completeopt=longest,menuone,preview
+
+" yy should work with clipboard=unnamedplus
+nnoremap yy ""*yy
+
+" C-d duplicates line or visual selection (cursor stays in position in normal and insert mode)
+nmap <C-d> mg""yyp`g:delm g<cr>
+imap <C-d> <C-O>mg<C-O>""yy<C-O>p<C-O>`g<C-O>:delm g<cr>
+vmap <C-d> ""y<up>""p
+
+let g:vim_markdown_formatter = 1
+let g:vim_markdown_folding_level = 3
+let g:vim_markdown_folding_disabled = 1
+
+" Elm binding
+autocmd FileType elm nnoremap <leader>el :ElmEvalLine<CR>
+autocmd FileType elm vnoremap <leader>es :<C-u>ElmEvalSelection<CR>
+autocmd FileType elm nnoremap <leader>em :ElmMakeCurrentFile<CR>
+
+" Disable ex mode
+:map Q <Nop>
+
+" make column 120 visible
+if (exists('+colorcolumn'))
+  set colorcolumn=120
+  highlight ColorColumn ctermbg=10
+endif
+
+" use Denite as file searcher
+try
+  call denite#custom#var('file_rec', 'command', ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+  call denite#custom#source('file_rec', 'matchers', ['matcher_fuzzy'])
+catch
+endtry
+
+nnoremap <leader>. :Denite file_rec<cr>
+
+" AG
+nmap ° :Ag <c-r>=expand("<cword>")<cr><cr>
+nnoremap <leader>/ :Ag
+
+" Setup Rainbow parentheses for clojure
+autocmd BufEnter *.cljs,*.clj,*.cljs.hl setlocal iskeyword+=?,-,*,!,+,/,=,<,>,.,:
+
+" Fix Rainbow parentheses for solarized
+let g:rbpt_colorpairs = [
+        \ ['darkyellow',  'RoyalBlue3'],
+        \ ['darkgreen',   'SeaGreen3'],
+        \ ['darkcyan',    'DarkOrchid3'],
+        \ ['Darkblue',    'firebrick3'],
+        \ ['DarkMagenta', 'RoyalBlue3'],
+        \ ['darkred',     'SeaGreen3'],
+        \ ['darkyellow',  'DarkOrchid3'],
+        \ ['darkgreen',   'firebrick3'],
+        \ ['darkcyan',    'RoyalBlue3'],
+        \ ['Darkblue',    'SeaGreen3'],
+        \ ['DarkMagenta', 'DarkOrchid3'],
+        \ ['Darkblue',    'firebrick3'],
+        \ ['darkcyan',    'SeaGreen3'],
+        \ ['darkgreen',   'RoyalBlue3'],
+        \ ['darkyellow',  'DarkOrchid3'],
+        \ ['darkred',     'firebrick3'],
+        \ ]
+
+set diffexpr=MyDiff()
+
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+set omnifunc=syntaxcomplete#Complete
+
+" OmniSharp
 " let g:OmniSharp_server_type = 'roslyn'
 " let g:OmniSharp_server_path = 'C:/Users/mgondermann/Portable/omnisharp-roslyn/OmniSharp.exe'
 let g:OmniSharp_server_type = 'v1'
@@ -309,7 +673,6 @@ let g:OmniSharp_host = "http://localhost:2000" "This is the default value, setti
 let g:OmniSharp_selector_ui = 'ctrlp'  " Use ctrlp.vim
 
 let g:OmniSharp_timeout = 1 "Timeout in seconds to wait for a response from the server
-set completeopt=longest,menuone,preview
 let g:syntastic_cs_checkers = ['syntax', 'semantic', 'issues']
 
 augroup omnisharp_commands
@@ -382,35 +745,21 @@ set fileencoding=utf-8
 " avoid the escape key
 imap jk <Esc>
 
-" XML
-au FileType xml set omnifunc=xmlcomplete#CompleteTags noci
-au FileType xml set foldnestmax=10
-au FileType xml setlocal foldmethod=syntax
-au FileType xml nmap <leader>f :%!xmllint --format -<CR>
-au FileType html set omnifunc=htmlcomplete#CompleteTags noci
-let g:xml_syntax_folding=1
-
-nmap < [
-nmap > ]
-omap < [
-omap > ]
-xmap < [
-xmap > ]
-
 set winwidth=84
 set winheight=5
 set winminheight=5
 set winheight=999
 
-set rnu
 function! ToggleNumbersOn()
     set nu!
     set rnu
 endfunction
+
 function! ToggleRelativeOn()
     set rnu!
     set nu
 endfunction
+
 autocmd FocusLost * call ToggleRelativeOn()
 autocmd FocusGained * call ToggleRelativeOn()
 autocmd InsertEnter * call ToggleRelativeOn()
@@ -436,8 +785,6 @@ nnoremap <silent> <C-A-Right> :vertical resize -5<cr>
 nnoremap <silent> <C-A-Down> :resize +5<cr>
 nnoremap <silent> <C-A-Up> :resize -5<cr>
 
-" folding
-nnoremap ya za
 
 " automatically rebalance windows on vim resize
 autocmd VimResized * :wincmd =
@@ -461,10 +808,7 @@ function! InsertTabWrapper()
     endif
 endfunction
 
-let g:airline_powerline_fonts = 1
 
-nmap <leader>aa :Tabularize /\|/l0<CR>
-vmap <leader>aa :Tabularize /\|/l0<CR>
 
 inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
 
@@ -481,4 +825,36 @@ endfunction
 
 " vim-fsharp plugin
 let g:syntastic_fsharp_checkers=['syntax']
+
+" add bundled option matchit extension
+packadd matchit
+
+
+" Control+S saves the current file (if it's been changed).
+"
+noremap  <C-S>  :update<CR>
+vnoremap <C-S>  <C-C>:update<CR>
+inoremap <C-S>  <C-O>:update<CR>
+
+" Control+Z is Undo, in Normal and Insert mode.
+"
+noremap  <C-Z>  u
+inoremap <C-Z>  <C-O>u
+
+" F2 inserts the date and time at the cursor.
+"
+inoremap <F2>   <C-R>=strftime("%c")<CR>
+nmap     <F2>   a<F2><Esc>
+
+
+" AutoComplete with C-Space
+" "
+inoremap <C-space> <C-x><C-o>
+
+
+let g:plantuml_executable_script='plantuml'
+
+nnoremap <F5> :w<CR> :silent make<CR>
+inoremap <F5> <Esc>:w<CR>:silent make<CR>
+vnoremap <F5> :<C-U>:w<CR>:silent make<CR>
 
