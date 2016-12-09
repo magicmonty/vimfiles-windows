@@ -346,7 +346,8 @@ inoremap <C-U>= <Esc>kyyp^v$r=ja
 nnoremap <leader>ev :tabedit $MYVIMRC<CR>
 augroup myvimrc
   au!
-  au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
+  au BufWritePost .vimrc,_vimrc,vimrc so $MYVIMRC 
+  au BufWritePost .gvimrc,_gvimrc,gvimrc so $MYGVIMRC 
 augroup END
 
 " Make page-forward and page-backward work in insert mode.
@@ -423,7 +424,7 @@ endif
 colorscheme solarized
 let g:solarized_contrast="normal"
 let g:solarized_visibility="high"
-let g:solarized_hitrail=1
+let g:solarized_hitrail=0
 let g:solarized_termtrans=0
 set background=dark
 
@@ -772,10 +773,10 @@ function! ToggleRelativeOn()
     set nu
 endfunction
 
-autocmd FocusLost * call ToggleRelativeOn()
-autocmd FocusGained * call ToggleRelativeOn()
-autocmd InsertEnter * call ToggleRelativeOn()
-autocmd InsertLeave * call ToggleRelativeOn()
+" autocmd FocusLost * call ToggleRelativeOn()
+" autocmd FocusGained * call ToggleRelativeOn()
+" autocmd InsertEnter * call ToggleRelativeOn()
+" autocmd InsertLeave * call ToggleRelativeOn()
 
 " Quicker window movement
 nnoremap <C-j> <C-w>j
@@ -889,7 +890,10 @@ if !has("gui_running") && !empty($ConEmuANSI)
 endif
 
 " Calendar.vim
-if exists(":Calendar")
-  let g:calendar_google_calendar = 1
-  let g:calendar_google_task = 1
-endif
+let g:calendar_google_calendar = 1
+let g:calendar_google_task = 0
+let g:calendar_time_zone = "+0100"
+let g:calendar_view = "week"
+let g:calendar_week_number = 1
+
+autocmd BufEnter calender :set nonu
