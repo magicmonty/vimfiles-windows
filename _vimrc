@@ -873,6 +873,7 @@ vnoremap <F5> :<C-U>:w<CR>:silent make<CR>
 " specific settings for ConEMU
 if !has("gui_running") && !empty($ConEmuANSI)
   echom "Running in conemu"
+  colorscheme molokai
   set termencoding=utf8
   set term=xterm
   set t_Co=256
