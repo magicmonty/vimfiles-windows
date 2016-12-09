@@ -1,7 +1,3 @@
-[submodule "vimfiles/pack/vim-pack-colors"]
-	path = vimfiles/pack/vim-pack-colors
-	url = git@github.com:magicmonty/vim-pack-colors.git
-	ignore = dirty
 [submodule "vimfiles/pack/vim-pack-general"]
 	path = vimfiles/pack/vim-pack-general
 	url = git@github.com:magicmonty/vim-pack-general.git
