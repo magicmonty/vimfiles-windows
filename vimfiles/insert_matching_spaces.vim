@@ -1,6 +1,6 @@
 " insert_matching_spaces.vim
 
-function InsertMatchingSpaces()
+function! InsertMatchingSpaces()
 "
 " Algorithm:
 " - starting at current column position in the current line...

@@ -18,3 +18,7 @@
 	path = vimfiles/pack/vim-pack-windows
 	url = git@github.com:magicmonty/vim-pack-windows.git
 	ignore = dirty
+[submodule "vimfiles/pack/vim-pack-office"]
+	path = vimfiles/pack/vim-pack-office
+	url = git@github.com:magicmonty/vim-pack-office.git
+  ignore = dirty

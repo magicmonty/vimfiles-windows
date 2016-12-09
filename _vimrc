@@ -10,6 +10,7 @@ endif
 
 let mapleader=" "
 let g:mapleader=" "
+set noundofile          " disable the persistent Undo function (and the corresponding .un~ file)
 set showmode            " show the input mode in the footer
 set shortmess+=I        " Don't show the Vim welcome screen.
 set clipboard=unnamedplus " use system clipboard with * register
@@ -343,6 +344,10 @@ inoremap <C-U>= <Esc>kyyp^v$r=ja
 " Edit user's vimrc in new tabs.
 "
 nnoremap <leader>ev :tabedit $MYVIMRC<CR>
+augroup myvimrc
+  au!
+  au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
+augroup END
 
 " Make page-forward and page-backward work in insert mode.
 "
@@ -456,7 +461,7 @@ function! s:ConfigureWindow()
 
 endfunction
 
-function MyDiff()
+function! MyDiff()
   let opt = '-a --binary '
   if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
   if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
@@ -489,9 +494,13 @@ imap <C-@> <C-Space>
 
 nnoremap <leader><Tab> :tabNext<cr>
 
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+" UltiSnips
+if has("python") || has("python3")
+  packadd ultisnips
+  let g:UltiSnipsExpandTrigger="<tab>"
+  let g:UltiSnipsJumpForwardTrigger="<c-b>"
+  let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+endif
 
 noremap <leader>bn :bn<cr>
 noremap <leader>bp :bp<cr>
@@ -665,17 +674,20 @@ let g:syntastic_check_on_wq = 0
 
 set omnifunc=syntaxcomplete#Complete
 
-" OmniSharp
-" let g:OmniSharp_server_type = 'roslyn'
-" let g:OmniSharp_server_path = 'C:/Users/mgondermann/Portable/omnisharp-roslyn/OmniSharp.exe'
-let g:OmniSharp_server_type = 'v1'
-let g:OmniSharp_host = "http://localhost:2000" "This is the default value, setting it isn't actually necessary
-let g:OmniSharp_selector_ui = 'ctrlp'  " Use ctrlp.vim
+if has("python")
+  packadd omnisharp-vim
 
-let g:OmniSharp_timeout = 1 "Timeout in seconds to wait for a response from the server
-let g:syntastic_cs_checkers = ['syntax', 'semantic', 'issues']
+  " OmniSharp
+  " let g:OmniSharp_server_type = 'roslyn'
+  " let g:OmniSharp_server_path = 'C:/Users/mgondermann/Portable/omnisharp-roslyn/OmniSharp.exe'
+  let g:OmniSharp_server_type = 'v1'
+  let g:OmniSharp_host = "http://localhost:2000" "This is the default value, setting it isn't actually necessary
+  let g:OmniSharp_selector_ui = 'ctrlp'  " Use ctrlp.vim
 
-augroup omnisharp_commands
+  let g:OmniSharp_timeout = 1 "Timeout in seconds to wait for a response from the server
+  let g:syntastic_cs_checkers = ['syntax', 'semantic', 'issues']
+
+  augroup omnisharp_commands
     autocmd!
 
     "Set autocomplete function to OmniSharp (if not using YouCompleteMe completion plugin)
@@ -715,29 +727,29 @@ augroup omnisharp_commands
     autocmd FileType cs set tabstop=4
     autocmd FileType cs set softtabstop=4
     autocmd FileType cs set shiftwidth=4
-augroup END
+  augroup END
 
+  set updatetime=500 " this setting controls how long to wait (in ms) before fetching type / symbol information.
+  set cmdheight=2 " Remove 'Press Enter to continue' message when type information is longer than one line.
 
-set updatetime=500 " this setting controls how long to wait (in ms) before fetching type / symbol information.
-set cmdheight=2 " Remove 'Press Enter to continue' message when type information is longer than one line.
+  nnoremap <leader><space> :OmniSharpGetCodeActions<cr> " Contextual code actions (requires CtrlP or unite.vim)
+  vnoremap <leader><space> :call OmniSharp#GetCodeActions('visual')<cr> " Run code actions with text selected in visual mode to extract method
+  nnoremap <leader>nm :OmniSharpRename<cr> " rename with dialog
+  nnoremap <F2> :OmniSharpRename<cr>
 
-nnoremap <leader><space> :OmniSharpGetCodeActions<cr> " Contextual code actions (requires CtrlP or unite.vim)
-vnoremap <leader><space> :call OmniSharp#GetCodeActions('visual')<cr> " Run code actions with text selected in visual mode to extract method
-nnoremap <leader>nm :OmniSharpRename<cr> " rename with dialog
-nnoremap <F2> :OmniSharpRename<cr>
+  command! -nargs=1 Rename :call OmniSharp#RenameTo("<args>") " rename without dialog - with cursor on the symbol to rename... ':Rename newname'
 
-command! -nargs=1 Rename :call OmniSharp#RenameTo("<args>") " rename without dialog - with cursor on the symbol to rename... ':Rename newname'
+  nnoremap <leader>rl :OmniSharpReloadSolution<cr> " Force OmniSharp to reload the solution. Useful when switching branches etc.
+  nnoremap <leader>cf :OmniSharpCodeFormat<cr>
 
-nnoremap <leader>rl :OmniSharpReloadSolution<cr> " Force OmniSharp to reload the solution. Useful when switching branches etc.
-nnoremap <leader>cf :OmniSharpCodeFormat<cr>
+  nnoremap <leader>tp :OmniSharpAddToProject<cr> " Load the current .cs file to the nearest project
 
-nnoremap <leader>tp :OmniSharpAddToProject<cr> " Load the current .cs file to the nearest project
+  " (Experimental - uses vim-dispatch or vimproc plugin) - Start the omnisharp server for the current solution
+  nnoremap <leader>ss :OmniSharpStartServer<cr>
+  nnoremap <leader>sp :OmniSharpStopServer<cr>
 
-" (Experimental - uses vim-dispatch or vimproc plugin) - Start the omnisharp server for the current solution
-nnoremap <leader>ss :OmniSharpStartServer<cr>
-nnoremap <leader>sp :OmniSharpStopServer<cr>
-
-nnoremap <leader>th :OmniSharpHighlightTypes<cr> " Add syntax highlighting for types and interfaces
+  nnoremap <leader>th :OmniSharpHighlightTypes<cr> " Add syntax highlighting for types and interfaces
+endif
 
 set encoding=utf-8
 set fileencoding=utf-8
@@ -858,3 +870,25 @@ nnoremap <F5> :w<CR> :silent make<CR>
 inoremap <F5> <Esc>:w<CR>:silent make<CR>
 vnoremap <F5> :<C-U>:w<CR>:silent make<CR>
 
+" specific settings for ConEMU
+if !has("gui_running") && !empty($ConEmuANSI)
+  echom "Running in conemu"
+  set termencoding=utf8
+  set term=xterm
+  set t_Co=256
+  let &t_AB="\e[48;5;%dm"
+  let &t_AF="\e[38;5;%dm"
+
+  set mouse=a
+  set nocompatible
+  inoremap <Esc>[62~ <C-X><C-E>
+  inoremap <Esc>[63~ <C-X><C-Y>
+  nnoremap <Esc>[62~ <C-E>
+  nnoremap <Esc>[63~ <C-Y>
+endif
+
+" Calendar.vim
+if exists(":Calendar")
+  let g:calendar_google_calendar = 1
+  let g:calendar_google_task = 1
+endif
