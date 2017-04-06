@@ -9,6 +9,7 @@ if has("win32")
 endif 
 
 let mapleader=" "
+let maplocalleader=" "
 let g:mapleader=" "
 set noundofile          " disable the persistent Undo function (and the corresponding .un~ file)
 set showmode            " show the input mode in the footer
@@ -421,11 +422,12 @@ if $TERMKIT_HOST_APP=="Cathode"
   let g:airline_powerline_fonts = 0
 endif
 
-colorscheme solarized
-let g:solarized_contrast="normal"
-let g:solarized_visibility="high"
-let g:solarized_hitrail=0
-let g:solarized_termtrans=0
+colorscheme molokai
+" colorscheme solarized
+" let g:solarized_contrast="normal"
+" let g:solarized_visibility="high"
+" let g:solarized_hitrail=0
+" let g:solarized_termtrans=0
 set background=dark
 
 """
