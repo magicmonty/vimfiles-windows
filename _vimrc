@@ -897,3 +897,24 @@ let g:calendar_view = "week"
 let g:calendar_week_number = 1
 
 autocmd BufEnter calender :set nonu
+
+" Get Bug numbers for all lines starting with * __
+let @t='0df:xwd$i,'
+nnoremap <leader>nn :g/^\* __\(FEATURE\\|CONFIG\\|FIX\\|INTERNAL\)/norm @t<CR>
+
+function! DeleteLineNotContaining(word)
+  let command = join(['g/^\(\(', a:word, '\)\@!.\)*$/d'], "")
+  execute command
+endfunction
+
+function! DeleteLineContaining(word)
+  let command = join(['g/^.*', a:word, '.*$/d'], "")
+  execute command
+endfunction
+
+let g:date_regex = '[0-9]\{2\}\.[0-9]\{2\}\.[0-9]\{4\}'
+let g:time_regex = '[0-9]\{2\}:[0-9]\{2\}:[0-9]\{2\}\.[0-9]\{3\}'
+let g:timestamp_regex = join([g:date_regex, g:time_regex], " ")
+let g:logline_regex = join([g:timestamp_regex, '|'], "")
+
+nnoremap <leader>dd :call DeleteLineNotContaining(g:logline_regex)<CR>
