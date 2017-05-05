@@ -382,7 +382,7 @@ inoremap <expr> <S-Tab>  InsertMatchingSpaces()
 " issuing the keystroke again.
 "
 " From this message on the MacVim mailing list:
-" http://groups.google.com/group/vim_mac/browse_thread/thread/31876ef48063e487/133e06134425bda1?hl=en¿e06134425bda1
+" http://groups.google.com/group/vim_mac/browse_thread/thread/31876ef48063e487/133e06134425bda1?hl=enÂ¿e06134425bda1
 "
 nnoremap <Leader>zz  :let &scrolloff=999-&scrolloff<CR>
 
@@ -422,13 +422,6 @@ if $TERMKIT_HOST_APP=="Cathode"
   let g:airline_powerline_fonts = 0
 endif
 
-colorscheme molokai
-" colorscheme solarized
-" let g:solarized_contrast="normal"
-" let g:solarized_visibility="high"
-" let g:solarized_hitrail=0
-" let g:solarized_termtrans=0
-set background=dark
 
 """
 """ Local Functions
@@ -635,7 +628,7 @@ endtry
 nnoremap <leader>. :Denite file_rec<cr>
 
 " AG
-nmap ° :Ag <c-r>=expand("<cword>")<cr><cr>
+nmap Â° :Ag <c-r>=expand("<cword>")<cr><cr>
 nnoremap <leader>/ :Ag
 
 " Setup Rainbow parentheses for clojure
@@ -674,6 +667,8 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+
+autocmd FileType xml let g:syntastic_check_on_open = 0
 
 set omnifunc=syntaxcomplete#Complete
 
@@ -873,10 +868,24 @@ nnoremap <F5> :w<CR> :silent make<CR>
 inoremap <F5> <Esc>:w<CR>:silent make<CR>
 vnoremap <F5> :<C-U>:w<CR>:silent make<CR>
 
+if has("gui_running")
+  let g:gruvbox_italic=1
+  let g:gruvbox_bold=1
+  let g:gruvbox_underline=1
+endif
+
+if !has("gui_running")
+  let g:gruvbox_italic=0
+  let g:gruvbox_bold=0
+  let g:gruvbox_underline=0
+endif
+
+colorscheme gruvbox
+set background=dark
+
 " specific settings for ConEMU
 if !has("gui_running") && !empty($ConEmuANSI)
   echom "Running in conemu"
-  colorscheme molokai
   set termencoding=utf8
   set term=xterm
   set t_Co=256
@@ -891,6 +900,7 @@ if !has("gui_running") && !empty($ConEmuANSI)
   nnoremap <Esc>[63~ <C-Y>
 endif
 
+
 " Calendar.vim
 let g:calendar_google_calendar = 1
 let g:calendar_google_task = 0
@@ -899,10 +909,6 @@ let g:calendar_view = "week"
 let g:calendar_week_number = 1
 
 autocmd BufEnter calender :set nonu
-
-" Get Bug numbers for all lines starting with * __
-let @t='0df:xwd$i,'
-nnoremap <leader>nn :g/^\* __\(FEATURE\\|CONFIG\\|FIX\\|INTERNAL\)/norm @t<CR>
 
 function! DeleteLineNotContaining(word)
   let command = join(['g/^\(\(', a:word, '\)\@!.\)*$/d'], "")
@@ -914,9 +920,25 @@ function! DeleteLineContaining(word)
   execute command
 endfunction
 
+function! GetWorkItems()
+  let @t='02dlwd$i,'
+  :g/^- \d\+ - /norm @t
+  :g/^$/d
+  :g/^###.*$/d
+  let @t='gg100Jgg'
+  :norm @t
+  :%s: ::g
+  let @t='"*y$'
+  :norm @t
+endfunction
+
+nnoremap <leader>nn :call GetWorkItems()<CR>
+
 let g:date_regex = '[0-9]\{2\}\.[0-9]\{2\}\.[0-9]\{4\}'
 let g:time_regex = '[0-9]\{2\}:[0-9]\{2\}:[0-9]\{2\}\.[0-9]\{3\}'
 let g:timestamp_regex = join([g:date_regex, g:time_regex], " ")
 let g:logline_regex = join([g:timestamp_regex, '|'], "")
 
 nnoremap <leader>dd :call DeleteLineNotContaining(g:logline_regex)<CR>
+
+
