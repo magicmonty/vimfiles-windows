@@ -413,16 +413,6 @@ au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
 
-if $TERMKIT_HOST_APP=="Cathode"
-  let g:solarized_termcolors=256
-  let g:solarized_bold=0
-  let g:solarized_underline=0
-  let g:solarized_italic=0
-  let g:airline_theme='powerlineish'
-  let g:airline_powerline_fonts = 0
-endif
-
-
 """
 """ Local Functions
 """
@@ -635,24 +625,24 @@ nnoremap <leader>/ :Ag
 autocmd BufEnter *.cljs,*.clj,*.cljs.hl setlocal iskeyword+=?,-,*,!,+,/,=,<,>,.,:
 
 " Fix Rainbow parentheses for solarized
-let g:rbpt_colorpairs = [
-        \ ['darkyellow',  'RoyalBlue3'],
-        \ ['darkgreen',   'SeaGreen3'],
-        \ ['darkcyan',    'DarkOrchid3'],
-        \ ['Darkblue',    'firebrick3'],
-        \ ['DarkMagenta', 'RoyalBlue3'],
-        \ ['darkred',     'SeaGreen3'],
-        \ ['darkyellow',  'DarkOrchid3'],
-        \ ['darkgreen',   'firebrick3'],
-        \ ['darkcyan',    'RoyalBlue3'],
-        \ ['Darkblue',    'SeaGreen3'],
-        \ ['DarkMagenta', 'DarkOrchid3'],
-        \ ['Darkblue',    'firebrick3'],
-        \ ['darkcyan',    'SeaGreen3'],
-        \ ['darkgreen',   'RoyalBlue3'],
-        \ ['darkyellow',  'DarkOrchid3'],
-        \ ['darkred',     'firebrick3'],
-        \ ]
+" let g:rbpt_colorpairs = [
+"         \ ['darkyellow',  'RoyalBlue3'],
+"         \ ['darkgreen',   'SeaGreen3'],
+"         \ ['darkcyan',    'DarkOrchid3'],
+"         \ ['Darkblue',    'firebrick3'],
+"         \ ['DarkMagenta', 'RoyalBlue3'],
+"         \ ['darkred',     'SeaGreen3'],
+"         \ ['darkyellow',  'DarkOrchid3'],
+"         \ ['darkgreen',   'firebrick3'],
+"         \ ['darkcyan',    'RoyalBlue3'],
+"         \ ['Darkblue',    'SeaGreen3'],
+"         \ ['DarkMagenta', 'DarkOrchid3'],
+"         \ ['Darkblue',    'firebrick3'],
+"         \ ['darkcyan',    'SeaGreen3'],
+"         \ ['darkgreen',   'RoyalBlue3'],
+"         \ ['darkyellow',  'DarkOrchid3'],
+"         \ ['darkred',     'firebrick3'],
+"         \ ]
 
 set diffexpr=MyDiff()
 
@@ -868,16 +858,26 @@ nnoremap <F5> :w<CR> :silent make<CR>
 inoremap <F5> <Esc>:w<CR>:silent make<CR>
 vnoremap <F5> :<C-U>:w<CR>:silent make<CR>
 
+let g:airline_theme='gruvbox'
+let g:gruvbox_contrast_dark='hard'
+let g:gruvbox_improved_strings=0
+let g:airline#extensions#syntastic#enabled = 1
+
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_skip_empty_sections = 1
+
 if has("gui_running")
-  let g:gruvbox_italic=1
   let g:gruvbox_bold=1
+  let g:gruvbox_italic=1
   let g:gruvbox_underline=1
+  let g:gruvbox_undercurl=1
 endif
 
 if !has("gui_running")
   let g:gruvbox_italic=0
   let g:gruvbox_bold=0
   let g:gruvbox_underline=0
+  let g:gruvbox_undercurl=0
 endif
 
 colorscheme gruvbox
@@ -940,5 +940,4 @@ let g:timestamp_regex = join([g:date_regex, g:time_regex], " ")
 let g:logline_regex = join([g:timestamp_regex, '|'], "")
 
 nnoremap <leader>dd :call DeleteLineNotContaining(g:logline_regex)<CR>
-
 
