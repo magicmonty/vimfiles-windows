@@ -152,6 +152,7 @@ if has('gui_running')
   set go-=T
   set go-=r
   let g:solarized_menu=0
+  au GUIEnter * simalt ~x
 endif
 
 if has("autocmd") && !exists("autocommands_loaded")
@@ -924,7 +925,7 @@ function! GetWorkItems()
   let @t='02dlwd$i,'
   :g/^- \d\+ - /norm @t
   :g/^$/d
-  :g/^###.*$/d
+  :v/^\d\+,\s*/d
   let @t='gg100Jgg'
   :norm @t
   :%s: ::g
