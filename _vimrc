@@ -610,17 +610,28 @@ if (exists('+colorcolumn'))
 endif
 
 " use Denite as file searcher
-try
-  call denite#custom#var('file_rec', 'command', ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
-  call denite#custom#source('file_rec', 'matchers', ['matcher_fuzzy'])
-catch
-endtry
+if has("python3")
+  au VimEnter * call denite#custom#var('file_rec', 'command', ['rg', '--hidden', '--files', '--color=never', '--glob', ''])
+  au VimEnter * call denite#custom#source('file_rec', 'matchers', ['matcher_fuzzy'])
+  au VimEnter * call denite#custom#var('file_rec/git', 'command', ['git', 'ls-files', '-co', '--exclude-standard'])
+  au VimEnter * call denite#custom#var('grep', 'command', ['rg'])
+  au VimEnter * call denite#custom#var('grep', 'default_opts', ['--vimgrep', '--no-heading'])
+  au VimEnter * call denite#custom#var('grep', 'recursive_opts', [])
+  au VimEnter * call denite#custom#var('grep', 'final_opts', [])
+  au VimEnter * call denite#custom#var('grep', 'separator', ['--'])
 
-nnoremap <leader>. :Denite file_rec<cr>
+  noremap [Denite] <Nop>
+  nmap <leader>. [Denite]
 
-" AG
-nmap Â° :Ag <c-r>=expand("<cword>")<cr><cr>
-nnoremap <leader>/ :Ag
+  noremap [Denite]r :<C-u>Denite file_mru<CR>
+  noremap [Denite]f :<C-u>DeniteBufferDir file_rec<CR>
+  noremap [Denite]g :<C-u>DeniteBufferDir grep<CR>
+  noremap [Denite]h :<C-u>Denite help<CR>
+  noremap [Denite]i :<C-u>Denite line<CR>
+  
+  " nnoremap <leader>. :Denite file_rec<cr>
+endif
+
 
 " Setup Rainbow parentheses for clojure
 autocmd BufEnter *.cljs,*.clj,*.cljs.hl setlocal iskeyword+=?,-,*,!,+,/,=,<,>,.,:
@@ -649,6 +660,13 @@ set diffexpr=MyDiff()
 
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
+if executable('rg')
+  set grepprg=rg\ --color=never
+  let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
+  let g:ctrlp_use_caching = 0
+endif
+
+set wildignore+=*/.git/*,*/tmp/*,*.swp,*/.fake/*
 
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
