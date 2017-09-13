@@ -147,7 +147,7 @@ if &t_Co > 2 || has("gui_running")
 endif
 
 if has('gui_running')
-  set guifont=Monoid:h9:cANSI
+  set guifont=Monoid_NF:h9:cANSI
   set go-=m
   set go-=T
   set go-=r
@@ -960,3 +960,8 @@ let g:logline_regex = join([g:timestamp_regex, '|'], "")
 
 nnoremap <leader>dd :call DeleteLineNotContaining(g:logline_regex)<CR>
 
+function! PrettyPrintJSON()
+  :%!python -m json.tool
+endfunction
+
+autocmd FileType json nnoremap <leader>pp :call PrettyPrintJSON()<CR>
